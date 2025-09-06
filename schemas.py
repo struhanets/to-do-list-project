@@ -6,8 +6,7 @@ from pydantic import BaseModel
 from enums import StatusEnum, PriorityEnum
 
 
-class TaskRequestData(BaseModel):
-    id: int
+class TaskBase(BaseModel):
     name: str
     description: Optional[str] = ""
     creation_date: datetime
@@ -15,7 +14,12 @@ class TaskRequestData(BaseModel):
     priority: PriorityEnum
 
 
-class TaskResponseData(BaseModel):
+class TaskCreate(TaskBase):
+    pass
+
+
+class TaskResponseData(TaskBase):
+    id: int
     name: str
     creation_date: datetime
     status: StatusEnum
