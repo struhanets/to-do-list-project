@@ -14,7 +14,7 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.post("/tasks", response_model=TaskCreate)
+@app.post("/tasks", response_model=TaskResponseData)
 async def create_task(new_task: TaskCreate):
     new_task_created = await crud.create_task(new_task)
     return new_task_created
@@ -26,7 +26,7 @@ async def get_tasks():
     return tasks
 
 
-@app.put("/tasks/{task_id}", response_model=TaskCreate)
+@app.put("/tasks/{task_id}", response_model=TaskResponseData)
 async def update_task(task_id: int, new_task_data: TaskCreate):
     new_task = await crud.update_task(task_id, new_task_data)
     return new_task
