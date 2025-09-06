@@ -20,6 +20,3 @@ class TaskCreate(TaskBase):
 
 class TaskResponseData(TaskBase):
     id: int
-    name: str
-    creation_date: datetime
-    status: StatusEnum
