@@ -8,6 +8,13 @@ from crud import tasks_storage
 
 client = TestClient(app)
 
+MOCK_DATA = {
+    "name": "Test Task",
+    "description": "Some description",
+    "creation_date": datetime.now().isoformat(),
+    "status": "todo",
+    "priority": "low"
+}
 
 @pytest.fixture
 def clear_storage():
@@ -25,35 +32,19 @@ def test_main_page():
 
 
 def test_add_task(clear_storage):
-    mock_data = {
-        "name": "Test Task",
-        "description": "Some description",
-        "creation_date": datetime.now().isoformat(),
-        "status": "todo",
-        "priority": "low"
-    }
-
-    response = client.post("/tasks/", json=mock_data)
+    response = client.post("/tasks/", json=MOCK_DATA)
 
     assert response.status_code == 200
     json_data = response.json()
     print(json_data)
     assert "id" in json_data
-    assert json_data["name"] == mock_data["name"]
-    assert json_data["status"] == mock_data["status"]
+    assert json_data["name"] == MOCK_DATA["name"]
+    assert json_data["status"] == MOCK_DATA["status"]
     assert len(tasks_storage) == 1
 
 
 def test_update_task(clear_storage):
-    mock_data = {
-        "name": "Test Task",
-        "description": "Some description",
-        "creation_date": datetime.now().isoformat(),
-        "status": "todo",
-        "priority": "low"
-    }
-
-    response = client.post("/tasks/", json=mock_data)
+    response = client.post("/tasks/", json=MOCK_DATA)
     task_id = response.json().get("id")
     response = client.put(
         f"/tasks/{task_id}",
@@ -75,15 +66,7 @@ def test_update_task(clear_storage):
 
 
 def test_delete_task(clear_storage):
-    mock_data = {
-        "name": "Test Task",
-        "description": "Some description",
-        "creation_date": datetime.now().isoformat(),
-        "status": "todo",
-        "priority": "low"
-    }
-
-    response = client.post("/tasks/", json=mock_data)
+    response = client.post("/tasks/", json=MOCK_DATA)
     task_id = response.json()["id"]
 
     delete_resp = client.delete(f"/tasks/{task_id}")
@@ -92,5 +75,5 @@ def test_delete_task(clear_storage):
     deleted_data = response.json()
     print(deleted_data)
     assert deleted_data["id"] == task_id
-    assert deleted_data["name"] == "Test Task"
+    assert deleted_data["name"] == MOCK_DATA["name"]
     assert len(tasks_storage) == 0
