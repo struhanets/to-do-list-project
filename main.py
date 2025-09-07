@@ -1,9 +1,10 @@
 from typing import List
 
 from fastapi import FastAPI
+from celery.result import AsyncResult
 
+from celery_worker import celery_app
 from schemas import TaskCreate, TaskResponseData
-
 import crud
 
 app = FastAPI()
@@ -37,3 +38,19 @@ async def delete_task(task_id: int):
     deleted_task = await crud.delete_task(task_id)
 
     return deleted_task
+
+
+@app.post("/run-task")
+async def run_task():
+    task = celery_app.send_task("task_parser")
+    return {"task_id": task.id}
+
+
+@app.get("/task-status/{task_id}")
+def get_task_status(task_id: str):
+    result = AsyncResult(task_id, app=celery_app)
+    return {
+        "task_id": task_id,
+        "status": result.status,        # PENDING, STARTED, SUCCESS, FAILURE
+        "result": result.result if result.ready() else None
+    }
