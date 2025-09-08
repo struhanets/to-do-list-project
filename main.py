@@ -1,14 +1,17 @@
 from typing import List
 
+import joblib
 from fastapi import FastAPI
 from celery.result import AsyncResult
 
 from celery_worker import celery_app
-from schemas import TaskCreate, TaskResponseData
+from schemas import TaskCreate, TaskResponseData, Task
 import crud
 
 app = FastAPI()
 
+model = joblib.load("priority_model.pkl")
+vectorizer = joblib.load("vectorizer.pkl")
 
 @app.get("/")
 async def root():
@@ -51,6 +54,15 @@ def get_task_status(task_id: str):
     result = AsyncResult(task_id, app=celery_app)
     return {
         "task_id": task_id,
-        "status": result.status,        # PENDING, STARTED, SUCCESS, FAILURE
+        "status": result.status,
         "result": result.result if result.ready() else None
     }
+
+
+@app.post("/predict")
+async def task_priority_predict(task: Task):
+    map_result = {0: "low", 1: "high"}
+    vectors = vectorizer.transform([task.description])
+    prediction = model.predict(vectors)
+    priority = map_result[prediction[0]]
+    return {"priority": priority}
