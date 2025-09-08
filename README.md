@@ -10,12 +10,13 @@ This backend project demonstrates how to use **FastAPI** together with **Celery*
 ## ✨ Features
 - 🗒️ **Task management (CRUD)** — create, read, update and delete tasks with fields:  
   `name`, `description`, `creation_date`, `status`, `priority`
-- 🚀 **Asynchronous tasks** — executed in the background with Celery  
-- 🔄 **Task status tracking** — check progress and results via API  
-- 📥 **External API parsing** — fetch users from [JSONPlaceholder](https://jsonplaceholder.typicode.com/users)  
-- 📝 **CSV export** — save parsed data into `users.csv`  
-- 🐳 **Dockerized environment** — reproducible setup with Docker Compose  
-- ⚡ **FastAPI auto-generated docs** — available at:
+- **Asynchronous tasks** — executed in the background with Celery  
+- **Task status tracking** — check progress and results via API  
+- **External API parsing** — fetch users from [JSONPlaceholder](https://jsonplaceholder.typicode.com/users)  
+- **CSV export** — save parsed data into `users.csv`
+- **Predicts** the priority of a task ("low" or "high") based on its description.
+- **Dockerized environment** — reproducible setup with Docker Compose  
+- **FastAPI auto-generated docs** — available at:
   - Swagger UI → `http://localhost:8000/docs`  
   - ReDoc → `http://localhost:8000/redoc`
 
@@ -31,6 +32,7 @@ This backend project demonstrates how to use **FastAPI** together with **Celery*
 | DELETE | `/tasks/{task_id}`    | Delete a task by ID  |
 | POST   | `/run-task`           | Run background task (parse & save)  |
 | GET    | `/task-status/{task_id}`    | Check the status of a Celery task   |
+| POST    | `/predict`    | Receives a task description and returns the predicted priority (low or high).   |
 
 ---
 
@@ -45,6 +47,8 @@ This backend project demonstrates how to use **FastAPI** together with **Celery*
 - **CSV module** — for saving parsed data
 - **Uvicorn 0.35.0** — ASGI server for FastAPI
 - **Pytest 8.4.2** — for testing CRUD operations
+- **scikit-learn** (LogisticRegression, CountVectorizer)
+- **joblib**
 
 
 ## 🚀 Getting Started
@@ -112,3 +116,29 @@ Example response:
 ```
 ### Output
 users.csv
+
+## 📌 Task Priority Prediction
+### 1. Open API docs
+Interactive documentation is available at:
+
+Swagger UI → http://localhost:8000/docs
+
+ReDoc → http://localhost:8000/redoc
+
+### 2. Test the /predict endpoint
+- POST /predict → Analyzes a task description and determines its priority ("low" or "high").
+
+Example response:
+```bash
+{"priority": "high"}
+```
+
+## 🔍 Useful Commands
+### View worker logs
+```bash
+docker logs -f celery_worker
+```
+### Stop and remove containers, volumes, and networks
+```bash
+docker-compose down -v
+```
