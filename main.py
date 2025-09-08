@@ -13,6 +13,7 @@ app = FastAPI()
 model = joblib.load("priority_model.pkl")
 vectorizer = joblib.load("vectorizer.pkl")
 
+
 @app.get("/")
 async def root():
     return {"message": "Welcome to New Page"}
@@ -55,7 +56,7 @@ def get_task_status(task_id: str):
     return {
         "task_id": task_id,
         "status": result.status,
-        "result": result.result if result.ready() else None
+        "result": result.result if result.ready() else None,
     }
 
 

@@ -11,7 +11,7 @@ dataset = [
     "Write unit tests for API,high",
     "Clean up temporary files,low",
     "Optimize database queries,high",
-    "Update documentation,low"
+    "Update documentation,low",
 ]
 
 # Split rows using comma to task_description & priority
@@ -33,9 +33,3 @@ model.fit(X, y)
 
 joblib.dump(model, "priority_model.pkl")
 joblib.dump(vectorizer, "vectorizer.pkl")
-
-
-# new_task_description = ["Clean up temporary files and logs"]
-# X_new = vectorizer.transform(new_task_description)
-# prediction = model.predict(X_new)
-# print("Predicted priority:", "high" if prediction[0] == 1 else "low")

@@ -21,7 +21,7 @@ def task_parser():
             user_data = {
                 "id": str(user["id"]),
                 "name": user["name"],
-                "email": user["email"]
+                "email": user["email"],
             }
             writer.writerow(user_data)
 

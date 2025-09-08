@@ -13,8 +13,9 @@ MOCK_DATA = {
     "description": "Some description",
     "creation_date": datetime.now().isoformat(),
     "status": "todo",
-    "priority": "low"
+    "priority": "low",
 }
+
 
 @pytest.fixture
 def clear_storage():
@@ -53,7 +54,7 @@ def test_update_task(clear_storage):
             "description": "Some description",
             "creation_date": datetime.now().isoformat(),
             "status": "completed",
-            "priority": "high"
+            "priority": "high",
         },
     )
 
