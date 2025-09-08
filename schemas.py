@@ -20,3 +20,7 @@ class TaskCreate(TaskBase):
 
 class TaskResponseData(TaskBase):
     id: int
+
+
+class Task(BaseModel):
+    description: str
