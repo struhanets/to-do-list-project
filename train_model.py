@@ -14,19 +14,15 @@ dataset = [
     "Update documentation,low",
 ]
 
-# Split rows using comma to task_description & priority
 rows = [line.split(",") for line in dataset]
 df = pd.DataFrame(rows, columns=["task_description", "priority"])
 
-# Replace priority from string to integer
 df["priority"] = df["priority"].map({"low": 0, "high": 1})
 
-# Text vectorization
 vectorizer = CountVectorizer()
 X = vectorizer.fit_transform(df["task_description"])
 y = df["priority"]
 
-# Model training
 model = LogisticRegression()
 model.fit(X, y)
 
