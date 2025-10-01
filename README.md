@@ -3,12 +3,16 @@
 
 ---
 
-This backend project demonstrates how to use **FastAPI** together with **Celery** for running asynchronous tasks (for example, fetching users from a public API and saving them into a CSV file). **Redis** is used as the task broker and result backend. Everything runs inside **Docker** via `docker-compose`. The project also functions as a task manager, allowing users to perform standard CRUD operations on their tasks via a RESTful API.
+This backend project demonstrates how to use **FastAPI** together with **Celery** for 
+running asynchronous tasks (for example, fetching users from a public API and saving them into a CSV file). 
+**Redis** is used as the task broker and result backend. Everything runs inside **Docker** via `docker-compose`.
+The project also functions as a task manager, allowing users to perform standard CRUD operations on their tasks 
+via a RESTful API.
 
 ---
 
 ## ✨ Features
-- 🗒️ **Task management (CRUD)** — create, read, update and delete tasks with fields:  
+- **Task management (CRUD)** — create, read, update and delete tasks with fields:  
   `name`, `description`, `creation_date`, `status`, `priority`
 - **Asynchronous tasks** — executed in the background with Celery  
 - **Task status tracking** — check progress and results via API  
