@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 
 from datetime import datetime
 from main import app
-from crud import tasks_storage
+from tasks.crud import tasks_storage
 
 client = TestClient(app)
 

@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import HTTPException
 
-from schemas import TaskResponseData, TaskCreate
+from core.schemas import TaskResponseData, TaskCreate
 
 tasks_storage: list[TaskResponseData] = []
 task_id_counter = 0

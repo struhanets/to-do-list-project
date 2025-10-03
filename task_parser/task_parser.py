@@ -1,7 +1,8 @@
 import csv
 
 import requests
-from celery_worker import celery_app
+
+from workers.celery_worker import celery_app
 
 
 @celery_app.task(name="task_parser")
@@ -13,7 +14,7 @@ def task_parser():
 
     field_names = ["id", "name", "email"]
 
-    with open("users.csv", "w", newline="", encoding="utf-8") as csvfile:
+    with open("../users.csv", "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=field_names)
         writer.writeheader()
 

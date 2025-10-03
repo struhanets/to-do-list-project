@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from enums import StatusEnum, PriorityEnum
+from core.enums import StatusEnum, PriorityEnum
 
 
 class TaskBase(BaseModel):
